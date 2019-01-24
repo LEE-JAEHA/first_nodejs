@@ -1,16 +1,17 @@
 html
     head
-        title hello NODE
+        title hello login page
 
         body
             div(style="text-align:center ")
                 h1= "hello "+ name
             div(style="text-align:center")
                 form(action="/" method="POST")
-                //-post 방식으로
                 br
-                input(type = "text" name ="email"placeholder ="E-mail")
-                brbr
+                input(type = "text" name ="email" placeholder ="E-mail")
+                br
+                br
                 input(type ="text" name ="password" placeholder = "Password")
-                brbr
-                button(type="submit")LOGIN
+                br
+                br
+                button(type="submit")= "LOGIN"

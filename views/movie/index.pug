@@ -6,7 +6,7 @@ html
             div(style="text-align:center ")
                 h1= "hello "+ name
             div(style="text-align:center")
-                form(action="/" method="POST")
+                form(action="/movie" method="POST")
                 br
                 input(type = "text" name ="email" placeholder ="E-mail")
                 br
@@ -16,6 +16,9 @@ html
                 br
                 button(type="submit")= "LOGIN"
 
-
             div
-            
+                each result in results
+                    h4= results.title
+                    img(src=result.thumb width = "%30")
+                    p= result.description
+                
