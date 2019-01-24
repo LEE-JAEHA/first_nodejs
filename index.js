@@ -77,6 +77,11 @@ app.post("/movie",(req,res)=>{
 })
 
 
+app.get("/bootstrap", (req,res)=>{
+    res.render('main/main');
+})
+
+
 /*
     port 열기
 */
