@@ -1,28 +1,34 @@
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const methodOverride = require('method-override')
+
 
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(methodOverride((req, res) => {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method
+        delete req.body._method
+        return method
+    }
+}))
+
+
 app.set("view engine","pug")
 app.set("views","./views")
-/*
-    DB구축
-*/
-var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'study_javascript'
-  });
-connection.connect();
 
+app.get("/", (req, res)=> {
+    res.send("hello");
+})
 /*(
     초반 페이지
 )*/
-app.get("/", (req, res)=> {
-    var name = req.body
-    //var name = req.query.name
+/*
+
+    //var name = req.body
+    var name = req.query.name
     //url 에 있는 주소를 보고 name 에 집어넣을 수 있음
     //localhost:3000/?name=jaeha
     //? 가 쿼리의 시작 그 뒤 부터는 &로 한다
@@ -31,13 +37,7 @@ app.get("/", (req, res)=> {
     //만약 views에 temp라는 폴더안에 tmp.pug라는 파일을 띄우려면
     res.render("temp/tmp",{name})
 })
-/*
-    관리자 페이지
 */
-app.get("/admin",function(req,res){
-    res.send("Hello Node ");
-})
-
 /*
     login page
 */
@@ -50,7 +50,7 @@ app.post("/login",(req,res)=>{
     //or
     //var email = req.body.email;
     //var password =req.body.password;
-    res.render('/main',{name:email});
+    res.render('/login',{name:email});
 
 })
 
@@ -81,6 +81,19 @@ app.get("/bootstrap", (req,res)=>{
     res.render('main/main');
 })
 
+app.post("/bootstrap2",(req,res)=>{
+    res.render("main/main2",{name})
+})
+
+
+app.get("/bootstrap2",(req,res)=>{
+    res.render("main/main2")
+
+})
+
+
+const admin = require('./routes/admin/index');
+app.use(admin);
 
 /*
     port 열기
